@@ -1,0 +1,17 @@
+{
+  "name": "My Dev Container",
+  "build": {
+    "dockerfile": "../Dockerfile",
+    "context": ".."
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance"
+      ]
+    }
+  },
+  // Thêm dòng dưới nếu Dockerfile của bạn cần dùng GPU
+  "runArgs": ["--gpus", "all"]
+}

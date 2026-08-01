@@ -1,0 +1,87 @@
+# Model checkpoints and trained weights
+checkpoints/
+resnet50/
+efficientnet_b3/
+vit_b_16/
+clip_vit_b_16/
+*.pth
+*.pt
+*.ckpt
+*.safetensors
+*.onnx
+*.h5
+*.pkl
+*.pickle
+
+# Generated evaluation outputs
+test_predictions*.csv
+*_predictions*.csv
+outputs/
+runs/
+wandb/
+mlruns/
+
+# Local datasets and large extracted folders
+Images/
+splits/
+train_captions.csv
+val_captions.csv
+test_captions.csv
+captions.txt
+
+# Python cache and build artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# Jupyter artifacts
+.ipynb_checkpoints/
+*.nbconvert.ipynb
+__results__.html
+__notebook__.ipynb
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# IDE/editor files
+.vscode/
+.idea/
+
+# OS/system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Documents and reports
+*.pdf
+*.doc
+*.docx
+*.ppt
+*.pptx
+*.xls
+*.xlsx
+*.csv
+*.log

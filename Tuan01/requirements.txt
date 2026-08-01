@@ -1,0 +1,6 @@
+transformers==5.0.0
+Pillow==11.3.0
+pandas==2.3.3
+tqdm==4.67.3
+nltk==3.9.1
+pycocoevalcap==1.2

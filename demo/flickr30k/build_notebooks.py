@@ -485,7 +485,7 @@ s = rep(s, "coco2014_karpathy_restval_baseline", "flickr30k_karpathy_baseline", 
 s = sub_block(s, "# Train từ đầu với train+restval:", "RESUME_CHECKPOINT_FILE = CHECKPOINT_FILE\n",
               "# Train từ đầu. Nếu kernel bị ngắt giữa chừng, đổi RESUME_TRAINING=True để tiếp tục từ last_checkpoint của chính bản này.\n"
               "RESUME_TRAINING = False\nRESUME_CHECKPOINT_FILE = CHECKPOINT_FILE\n", include_end=True)
-s = rep(s, "EPOCHS = 35\n", "EPOCHS = 30  # 1.512 bước/epoch (29.000 ảnh x 5 câu / 96); EarlyStopping (patience 3, val loss) thường dừng sớm hơn\n")
+s = rep(s, "EPOCHS = 35\n", "EPOCHS = 30  # 1.511 bước/epoch (29.000 ảnh x 5 câu / 96); EarlyStopping (patience 3, val loss) thường dừng sớm hơn\n")
 s = rep(s, "COCODataset", "FlickrDataset", 3)
 s = sub_block(s, "def load_karpathy_data(json_file, split=\"train\"):", "def build_or_load_vocab(", LOADERS_BLOCK)
 s = rep(s, 'print("0. Đang chuẩn bị Dataset và Vocabulary cho baseline COCO 2014...")', 'print("0. Đang chuẩn bị Dataset và Vocabulary cho baseline Flickr30k...")')
@@ -503,7 +503,7 @@ Bản chuyển từ `clipvit-transformer-coco2014.ipynb` sang **Flickr30k (Karpa
 
 - Kiến trúc, hàm mất mát và vòng huấn luyện giữ nguyên: CLIP ViT-B/16 đóng băng + adapter, bộ giải mã Transformer 2 lớp, AdamW, AMP, EarlyStopping theo val loss.
 - Dữ liệu: `dataset_flickr30k.json` (train 29.000 / val 1.014 / test 1.000 ảnh, 5 câu mỗi ảnh), không có restval. Cần gắn 2 dataset (Karpathy split Flickr30k và ảnh Flickr30k); đường dẫn tự dò dưới `/kaggle/input`.
-- `EPOCHS` = 30 (mỗi epoch 1.512 bước, ít hơn COCO khoảng 3,9 lần).
+- `EPOCHS` = 30 (mỗi epoch 1.511 bước, ít hơn COCO khoảng 3,9 lần).
 - Tên checkpoint/từ điển có tiền tố `flickr30k_karpathy_baseline_`.
 """
 
@@ -525,7 +525,7 @@ cfg = sub_block(cfg, "# Hallucination-aware training: dùng COCO instances", "US
                 "# (xem build_caption_objects). Không dùng YOLO.\n")
 cfg = rep(cfg, "USE_COCO_INSTANCE_HALL_LABELS = True\n", "USE_CAPTION_OBJECT_LABELS = True\n")
 cfg = rep(cfg, "EPOCHS = 5  # theo yêu cầu: chỉ train 5 epoch cho ablation này (không phải 44 như bản N006/N009)",
-          "EPOCHS = 30  # 1.512 bước/epoch (29.000 ảnh x 5 câu / 96); bản COCO chạy 40 epoch x 5.904 bước")
+          "EPOCHS = 30  # 1.511 bước/epoch (29.000 ảnh x 5 câu / 96); bản COCO chạy 40 epoch x 5.904 bước")
 cfg = sub_block(cfg, "_DIR_FILES = {}", "def build_or_load_vocab(", LOADERS_BLOCK)
 cfg = rep(cfg, "COCODataset", "FlickrDataset", 1)
 assert "TRAIN_IMG_DIR" not in cfg and "INSTANCES_JSON" not in cfg and "COCO_" not in cfg.replace("COCO_OBJECT", "")
@@ -562,7 +562,7 @@ Giữ nguyên kiến trúc và huấn luyện: Dynamic Logits tại đầu ra de
 
 1. **Dữ liệu**: `dataset_flickr30k.json` (train 29.000 / val 1.014 / test 1.000 ảnh, 5 câu mỗi ảnh), không có restval. Đường dẫn tự dò dưới `/kaggle/input`; cần gắn Karpathy split Flickr30k và ảnh Flickr30k.
 2. **Nhãn object**: Flickr30k không có COCO instances, nên object "có trong ảnh" được rút từ 5 caption của ảnh (`build_caption_objects`, 80 lớp COCO). Vật thể thấy được nhưng không caption nào nhắc sẽ bị coi là vắng mặt, nên Dynamic Logits và negative phạt nhầm nhiều hơn bản COCO. Đây là chỗ cần xem kỹ khi đọc kết quả.
-3. **Số epoch**: `EPOCHS` = 30 (mỗi epoch 1.512 bước, ít hơn COCO khoảng 3,9 lần).
+3. **Số epoch**: `EPOCHS` = 30 (mỗi epoch 1.511 bước, ít hơn COCO khoảng 3,9 lần).
 4. **Đánh giá**: cell cuối chạy tự động sau khi train (greedy và beam search, BLEU/METEOR/ROUGE-L/CIDEr, CHAIRs/CHAIRi). Dynamic Logits ở đây chỉ dùng lúc train; lúc đánh giá không chặn logits (không có bằng chứng YOLO hay câu truy hồi).
 
 Tên checkpoint/từ điển có tiền tố `flickr30k_karpathy_dynlogits_contrastive_attnpool_`.
